@@ -24,6 +24,33 @@ axios.get(HKOPath, {
 </script>
 
 <template>
+<!-- 
+  notes
+  pwa?
+  form input binding ?
+  api
+  https://cn.vuejs.org/api/composition-api-setup.html
+
+  Vue Router?
+  Axios in Vue3 ?
+  https://cn.vuejs.org/guide/essentials/application.html#mounting-the-app
+
+  pwa?
+
+  axios
+  https://www.youtube.com/watch?v=yNrqlxn0nc0
+  https://developer.school/how-to-use-vue-js-json-server-and-axios
+
+  api diff
+  https://www.sitepoint.com/vue-composition-api-reusable-components/#:~:text=The%20Composition%20API%20is%20a,and%20shared%20between%20different%20projects.
+  in vue
+
+
+  hko
+  https://www.hko.gov.hk/tc/weatherAPI/doc/files/HKO_Open_Data_API_Documentation_tc.pdf
+  mtr
+  https://opendata.mtr.com.hk/doc/Next_Train_DataDictionary_v1.2.pdf
+ -->
   <!-- <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
