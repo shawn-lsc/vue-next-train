@@ -6,6 +6,9 @@ import { ref } from 'vue'
 import axios from 'axios'
 const weatherAPIData = ref()
 const mtrAPIData = ref()
+const name = ref("")
+const age = ref("")
+const selected = ref("")
 
 const HKOPath = 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php'
 const MTRPath = 'https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php'
@@ -45,6 +48,7 @@ const GetMTR = () => {
 
 GetHKO()
 GetMTR()
+
 </script>
 
 <template>
@@ -85,7 +89,7 @@ GetMTR()
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" /> -->
-  <h1>API</h1>
+  <h1>get data from API</h1>
    <div>
     <button @click="GetHKO">GetHKO</button>
   </div>
@@ -132,12 +136,38 @@ GetMTR()
       <td v-else style="font-weight: bold; color: red;">Delay</td>
     </tr>
     <tr>
-      <td>data</td>
-      <td>{{ mtrAPIData.data }}</td>
+      <td colspan="2">{{ JSON.stringify(mtrAPIData.data) }}</td>
     </tr>
   </table>
+<br>
 
-
+<form @submit="onSubmit" class="add-form">
+    <div class="form-control">
+      <label>Name</label>
+      <input type="text" v-model="name" name="name" placeholder="Enter Your Name" />
+    </div>
+    <div class="form-control">
+      <label>Age</label>
+      <input
+        type="text"
+        v-model="age"
+        name="age"
+        placeholder="Enter Your Age"
+      />
+      <select v-model="selected">
+        <option disabled value="">Please select one</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+      </select>
+    </div>
+    <input type="submit" value="Save Information" class="btn btn-block" />
+  </form>
+  <div>
+    {{name}}
+    {{age}}
+    {{selected}}
+  </div>
 </template>
 
 <style scoped>
