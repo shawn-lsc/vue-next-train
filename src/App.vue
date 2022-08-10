@@ -2,29 +2,54 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import HelloWorld from './components/HelloWorld.vue'
-import {ref} from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
-const weatherAPIData= ref()
+const weatherAPIData = ref()
+const mtrAPIData = ref()
 
 const HKOPath = 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php'
-axios.get(HKOPath, {
-  params: {
-    dataType: "flw",
-    lang: "tc"
-  }
-})
-.then(function (response) {
-  console.log("response",response);
-  console.log("response.data",response.data);
-  weatherAPIData.value = response.data
-})
-.catch(function (error) {
-  console.log("axios error",error);
-});
+const MTRPath = 'https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php'
+const GetHKO = () => {
+  axios.get(HKOPath, {
+    params: {
+      dataType: "flw",
+      lang: "tc",
+    }
+  })
+    .then(function (response) {
+      console.log("response", response);
+      console.log("response.data", response.data);
+      weatherAPIData.value = response.data
+    })
+    .catch(function (error) {
+      console.log("axios error", error);
+    });
+}
+const GetMTR = () => {
+  axios.get(MTRPath, {
+    params: {
+      line: "EAL",
+      sta: "SHT",
+      lang: "TC",
+    }
+  })
+    .then(function (response) {
+      console.log("response", response);
+      console.log("response.data", response.data);
+      mtrAPIData.value = response.data
+    })
+    .catch(function (error) {
+      console.log("axios error", error);
+    });
+}
+
+GetHKO()
+GetMTR()
 </script>
 
 <template>
-<!-- 
+ 
+  <!-- 
   notes
   pwa?
   form input binding ?
@@ -61,10 +86,54 @@ axios.get(HKOPath, {
   </div>
   <HelloWorld msg="Vite + Vue" /> -->
   <h1>API</h1>
+   <div>
+    <button @click="GetHKO">GetHKO</button>
+  </div>
   <table v-if="weatherAPIData">
     <tr>
+      <th colSpan = "2">{{ weatherAPIData.forecastPeriod }}</th>
+    </tr>
+    <tr>
       <td>updateTime</td>
-      <td >{{weatherAPIData.updateTime}}</td>
+      <td>{{ weatherAPIData.updateTime }}</td>
+    </tr>
+    <tr>
+      <td>forecastDesc</td>{{ weatherAPIData.forecastDesc }}<td></td>
+    </tr>
+    <tr>
+      <td>outlook</td>
+      <td>{{ weatherAPIData.outlook }}</td>
+    </tr>
+  </table>
+
+<br>
+
+   <div>
+    <button @click="GetMTR">GetMTR</button>
+  </div>
+  <table v-if="mtrAPIData">
+    <tr>
+      <td>message</td>
+      <td style="font-weight: bold; color: greenyellow;">{{ mtrAPIData.message.toUpperCase() }}</td>
+    </tr>
+    <tr>
+      <td>最後更新日期</td>
+      <td>{{ mtrAPIData.curr_time }}</td>
+
+    </tr>
+    <tr>
+      <td>status</td>
+      <td v-if="mtrAPIData.status" style="font-weight: bold; color: greenyellow;">Normal</td>
+      <td v-else style="font-weight: bold; color: red;">Error</td>
+    </tr>
+    <tr>
+      <td>isdelay</td>
+      <td v-if="mtrAPIData.isdelay == 'N'" style="font-weight: bold; color: greenyellow;">No delay</td>
+      <td v-else style="font-weight: bold; color: red;">Delay</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td>{{ mtrAPIData.data }}</td>
     </tr>
   </table>
 
@@ -72,15 +141,10 @@ axios.get(HKOPath, {
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+table{
+  border: 1px yellow solid;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+td:first-child{
+  width: 25%;
 }
 </style>
