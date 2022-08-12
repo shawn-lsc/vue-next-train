@@ -1,99 +1,35 @@
 <template>
-  <div>
- <n-radio-group
-    v-model:value="size"
-    name="left-size"
-    style="margin-bottom: 12px"
-  >
-    <n-radio-button value="small">
-      Small
-    </n-radio-button>
-    <n-radio-button value="medium">
-      Medium
-    </n-radio-button>
-    <n-radio-button value="large">
-      Large
-    </n-radio-button>
-  </n-radio-group>
-  <n-form
-    ref="formRef"
-    inline
-    :label-width="80"
-    :model="formValue"
-    :rules="rules"
-    :size="size"
-  >
-    <n-form-item label="Name" path="user.name">
-      <n-input v-model:value="formValue.user.name" placeholder="Input Name" />
+<h1>submit form json</h1>
+  <n-form :model="formValue" size="small" :inline="false" :label-width="80" label-align="left" label-placement="left"
+    :show-feedback="true" :show-label="true" :show-require-mark="false" :rules="rules" require-mark-placement="right">
+
+    <n-form-item label="inputNumber" path="undefined">
+      <n-input-number :clearable="false" :step="1" size="small" :show-button="true" />
     </n-form-item>
-    <n-form-item label="Age" path="user.age">
-      <n-input v-model:value="formValue.user.age" placeholder="Input Age" />
+    <n-form-item label="select" path="undefined">
+      <n-select size="small" placeholder="请选择" :multiple="false" :clearable="true"
+        :options="[{ label: '1', value: '' }, { label: '2', value: '' }, { label: '3', value: '' }]" />
     </n-form-item>
-    <n-form-item label="Phone" path="phone">
-      <n-input v-model:value="formValue.phone" placeholder="Phone Number" />
+    <n-form-item label="input" path="undefined">
+      <n-input :clearable="false" type="text" size="medium" />
     </n-form-item>
+    <n-form-item label="radio" path="undefined">
+      <n-radio-group size="medium">
+        <n-space>
+
+        </n-space>
+      </n-radio-group>
+    </n-form-item>
+
     <n-form-item>
-      <n-button @click="handleValidateClick">
-        Validate
-      </n-button>
+      <n-space justify="center">
+        <n-button @click="handleValidateClick">确认</n-button>
+        <n-button>取消</n-button>
+      </n-space>
     </n-form-item>
   </n-form>
-
-  <pre>{{ JSON.stringify(formValue, null, 2) }}
-</pre>
-  </div>
- 
 </template>
-
-<script>
-import { defineComponent, ref } from "vue";
-import { useMessage } from "naive-ui";
-
-export default defineComponent({
-  setup() {
-    const formRef = ref(null);
-    const message = useMessage();
-    return {
-      formRef,
-      size: ref("medium"),
-      formValue: ref({
-        user: {
-          name: "",
-          age: ""
-        },
-        phone: ""
-      }),
-      rules: {
-        user: {
-          name: {
-            required: true,
-            message: "Please input your name",
-            trigger: "blur"
-          },
-          age: {
-            required: true,
-            message: "Please input your age",
-            trigger: ["input", "blur"]
-          }
-        },
-        phone: {
-          required: true,
-          message: "Please input your number",
-          trigger: ["input"]
-        }
-      },
-      handleValidateClick(e) {
-        e.preventDefault();
-        formRef.value?.validate((errors) => {
-          if (!errors) {
-            message.success("Valid");
-          } else {
-            console.log(errors);
-            message.error("Invalid");
-          }
-        });
-      }
-    };
-  }
-});
+  
+<script setup type="ts">
+import { NInputNumber, NSelect, NInput, NRadio, NRadioGroup, NSpace, NButton, NForm, NFormItem } from 'naive-ui';
 </script>
