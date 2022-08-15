@@ -32,4 +32,7 @@
   
 <script setup type="ts">
 import { NInputNumber, NSelect, NInput, NRadio, NRadioGroup, NSpace, NButton, NForm, NFormItem } from 'naive-ui';
+function handleValidateClick () {
+  console.log("hello")
+}
 </script>
